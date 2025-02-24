@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download apktool
-        run: wget -O apktool.jar https://github.com/iBotPeaches/Apktool/releases/download/v2.11.0/apktool_2.11.0.jar
+        run: wget --no-verbose -O apktool.jar https://github.com/iBotPeaches/Apktool/releases/download/v2.11.0/apktool_2.11.0.jar
 
       - name: Decompile app
         run: java -jar apktool.jar decode "com.wunderground.android.weather_6.17.0-2019069319_minAPI24(arm64-v8a,armeabi,armeabi-v7a,mips,mips64,x86,x86_64)(nodpi)_apkmirror.com.apk" -o decompiled
@@ -34,7 +34,8 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         run: |
           echo $KEYSTORE_BASE64 | base64 --decode > cert.keystore
-          $ANDROID_HOME/build-tools/*/apksigner sign --ks cert.keystore --ks-pass env:KEYSTORE_PASSWORD --align-file-size Wunderground-faststart.apk
+          find $ANDROID_HOME/build-tools -name apksigner
+          find $ANDROID_HOME/build-tools -name apksigner -exec {} sign --ks cert.keystore --ks-pass env:KEYSTORE_PASSWORD --align-file-size Wunderground-faststart.apk \; -quit
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
