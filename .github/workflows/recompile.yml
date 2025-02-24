@@ -1,0 +1,44 @@
+name: Recompile
+
+on:
+  push:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  recompile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone
+        uses: actions/checkout@v4
+
+      - name: Download apktool
+        run: wget -O apktool.jar https://github.com/iBotPeaches/Apktool/releases/download/v2.11.0/apktool_2.11.0.jar
+
+      - name: Decompile app
+        run: java -jar apktool.jar decode "com.wunderground.android.weather_6.17.0-2019069319_minAPI24(arm64-v8a,armeabi,armeabi-v7a,mips,mips64,x86,x86_64)(nodpi)_apkmirror.com.apk" -o decompiled
+
+      - name: Modify source
+        run: |
+          find decompiled -name 'WeatherHomeActivity.smali' -exec sed -i '/^\.method static synthetic lambda$checkFirstLaunch$1(/,/^\.end method$/s/const-wide\/16 \(v[0-9]\+\), 0x3$/const-wide\/16 \1, 0x0 # changed by Ben/' {} \;
+          find decompiled -name 'SplashScreenAppLaunchController$WaitForCoreComponentsState.smali' -exec sed -i '/^\.method constructor <init>(/,/\^.end method$/s/const-wide\/16 \(v[0-9]\+\), 0x7d0/const-wide\/16 \1, 0x0 # changed by Ben/' {} \;
+
+      - name: Compile app
+        run: java -jar apktool.jar build decompiled -o Wunderground-faststart.apk
+
+      - name: Sign APK
+        env: 
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          echo $KEYSTORE_BASE64 | base64 --decode > cert.keystore
+          $ANDROID_HOME/build-tools/*/apksigner sign --ks cert.keystore --ks-pass env:KEYSTORE_PASSWORD --align-file-size Wunderground-faststart.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Wunderground-faststart.apk
+          path: Wunderground-faststart.apk
+          if-no-files-found: error
