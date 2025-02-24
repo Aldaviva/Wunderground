@@ -4,16 +4,16 @@
 This is a tweaked build of the [official Weather Underground Android app](https://play.google.com/store/apps/details?id=com.wunderground.android.weather). It fixes the startup delay so it launches 4.5 seconds faster.
 
 ## Requirements
-- Android 7 or later
+- Android ≥ 7
 
 ## Installation
 1. Uninstall the official Weather Underground app from your Android device.
-    - This step is required because I signed the tweaked build with my own certificate, as I don't have access to the original certificate.
+    - This step is required because I signed the tweaked build with my own certificate, because I don't have access to the official certificate used by Weather Underground.
     - If you skip this step, Android will fail to install the tweaked app with an error message.
     - This erases your preferences in the app, such as favorite weather stations and temperature units. You will need to reconfigure them after installation.
 1. Download the [tweaked APK](https://github.com/Aldaviva/Wunderground/releases/latest/download/Wunderground-faststart.apk) from this repository's [latest release](https://github.com/Aldaviva/Wunderground/releases/latest) to your device.
 1. Run the downloaded APK file on your device to install it.
-    - For example, you could tap the APK in the download notification, or find it in Files by Google or another file manager app.
+    - For example, you can tap the APK in the download notification, or find it in Files by Google or another file manager app.
     - By default, Android will prevent manual installation (sideloading) of apps, with the prompt
         > For your security, your phone currently isn't allowed to install unknown apps from this source. You can change this in Settings.
     - Tap Settings, enable "Allow from this source," then tap Install.
@@ -29,3 +29,7 @@ This is a tweaked build of the [official Weather Underground Android app](https:
 |tweaked|1.060 s|-4.558 s|19%|5.3×|
 
 *Measured from the first frame of the home screen launcher app startup animation to the first frame of the splash screen dismissal animation on a Google Pixel 9 (Tensor G4).*
+
+## Demonstration
+
+https://github.com/user-attachments/assets/51062220-004b-4575-b10e-f9ff550d3c80
