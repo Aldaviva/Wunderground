@@ -1,7 +1,7 @@
 🌦 Wunderground
 ===
 
-This is a tweaked build of the [official Weather Underground Android app](https://play.google.com/store/apps/details?id=com.wunderground.android.weather). It fixes the startup delay so it launches 4.5 seconds faster.
+This is a tweaked build of the [official Weather Underground Android app](https://play.google.com/store/apps/details?id=com.wunderground.android.weather). It fixes the startup delay so it launches 4.6 seconds faster.
 
 ## Requirements
 - Android ≥ 7
