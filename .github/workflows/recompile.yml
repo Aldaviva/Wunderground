@@ -11,6 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Define environment variables
+        run: |
+          # Build-Tools 34 corrupts APKs when apksigner signs them, fixed in 35
+          echo "ANDROID_BUILD_TOOLS=$ANDROID_HOME/build-tools/35.0.1" >> $GITHUB_ENV
+
       - name: Clone
         uses: actions/checkout@v4
 
@@ -26,7 +31,7 @@ jobs:
           find decompiled -name 'SplashScreenAppLaunchController$WaitForCoreComponentsState.smali' -exec sed -i '/^\.method constructor <init>(/,/\^.end method$/s/const-wide\/16 \(v[0-9]\+\), 0x7d0/const-wide\/16 \1, 0x0 # changed by Ben/' {} \;
 
       - name: Compile app
-        run: java -jar apktool.jar build decompiled -o Wunderground-faststart.apk
+        run: java -jar apktool.jar build decompiled -o Wunderground-faststart-unsigned.apk
 
       - name: Sign APK
         env: 
@@ -34,8 +39,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         run: |
           echo $KEYSTORE_BASE64 | base64 --decode > cert.keystore
-          find $ANDROID_HOME/build-tools -name apksigner
-          find $ANDROID_HOME/build-tools -name apksigner -exec {} sign --ks cert.keystore --ks-pass env:KEYSTORE_PASSWORD --align-file-size Wunderground-faststart.apk \; -quit
+          $ANDROID_BUILD_TOOLS/apksigner sign --ks cert.keystore --ks-pass env:KEYSTORE_PASSWORD --align-file-size --in Wunderground-faststart-unsigned.apk --out Wunderground-faststart.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
