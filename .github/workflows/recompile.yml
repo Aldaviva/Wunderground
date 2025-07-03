@@ -24,7 +24,7 @@ jobs:
         run: wget --no-verbose -O apktool.jar https://github.com/iBotPeaches/Apktool/releases/download/v2.11.0/apktool_2.11.0.jar
 
       - name: Decompile app
-        run: java -jar apktool.jar decode *.apk -o decompiled
+        run: java -jar apktool.jar decode *.apk -o decompiled --no-res
 
       - name: Modify source
         run: dotnet fsi tweak.fsx
