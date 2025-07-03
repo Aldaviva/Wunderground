@@ -14,7 +14,8 @@ jobs:
       - name: Define environment variables
         run: |
           # Build-Tools 34 corrupts APKs when apksigner signs them, fixed in 35
-          echo "ANDROID_BUILD_TOOLS=$ANDROID_HOME/build-tools/35.0.1" >> $GITHUB_ENV
+          # Available versions: https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md#android
+          echo "ANDROID_BUILD_TOOLS=$ANDROID_HOME/build-tools/36.0.0" >> $GITHUB_ENV
 
       - name: Clone
         uses: actions/checkout@v4
@@ -23,7 +24,7 @@ jobs:
         run: wget --no-verbose -O apktool.jar https://github.com/iBotPeaches/Apktool/releases/download/v2.11.0/apktool_2.11.0.jar
 
       - name: Decompile app
-        run: java -jar apktool.jar decode "com.wunderground.android.weather_6.17.0-2019069319_minAPI24(arm64-v8a,armeabi,armeabi-v7a,mips,mips64,x86,x86_64)(nodpi)_apkmirror.com.apk" -o decompiled
+        run: java -jar apktool.jar decode *.apk -o decompiled
 
       - name: Modify source
         run: |
