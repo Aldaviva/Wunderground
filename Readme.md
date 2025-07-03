@@ -4,7 +4,7 @@
 This is a tweaked build of the [official Weather Underground Android app](https://play.google.com/store/apps/details?id=com.wunderground.android.weather). It fixes the startup delay so it launches 4.6 seconds faster.
 
 ## Requirements
-- Android ≥ 7
+- Android ≥ 8
 
 ## Installation
 1. Uninstall the official Weather Underground app from your Android device.
@@ -22,13 +22,16 @@ This is a tweaked build of the [official Weather Underground Android app](https:
     - Alternatively, you can skip the scan by tapping More details, then "Install without scanning." Next, confirm your lock screen credentials, such as your PIN or fingerprint.
 1. Tap Open.
 
+### Upgrade
+Run steps 2–3 above.
+
 ## Performance
 |Build|Launch duration|Difference (abs)|Difference (rel)|Speed|
 |-|-:|-:|-:|-:|
 |stock|5.618 s|0.000 s|100%|1.0×|
 |tweaked|1.060 s|-4.558 s|19%|5.3×|
 
-*Measured from the first frame of the home screen launcher app startup animation to the first frame of the splash screen dismissal animation on a Google Pixel 9 (Tensor G4).*
+*Measured with app version 6.17 from the first frame of the home screen launcher app startup animation to the first frame of the splash screen dismissal animation on a Google Pixel 9 (Tensor G4).*
 
 ## Demonstration
 
