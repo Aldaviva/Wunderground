@@ -27,19 +27,7 @@ jobs:
         run: java -jar apktool.jar decode *.apk -o decompiled
 
       - name: Modify source
-        run: |
-          find decompiled -name 'WeatherHomeActivity.smali' -exec sed -i '/^\.method static synthetic lambda$checkFirstLaunch$1(/,/^\.end method$/s/const-wide\/16 \(v[0-9]\+\), 0x3$/const-wide\/16 \1, 0x0 # changed by Ben/' {} \;
-          find decompiled -name 'SplashScreenAppLaunchController$WaitForCoreComponentsState.smali' -exec sed -i '/^\.method constructor <init>(/,/\^.end method$/s/const-wide\/16 \(v[0-9]\+\), 0x7d0/const-wide\/16 \1, 0x0 # changed by Ben/' {} \;
-
-      - name: Assert replacement count
-        run: |
-          matchCount=$(grep -r "# changed by Ben" decompiled | wc -l)
-          if [[ $matchCount != "2" ]] then
-            echo "::error::Expected 2 replacements, actually found $matchCount";
-            exit 1;
-          else
-            echo "Found $matchCount replacements, as expected";
-          fi
+        run: dotnet fsi tweak.fsx
 
       - name: Compile app
         run: java -jar apktool.jar build decompiled -o Wunderground-faststart-unsigned.apk
