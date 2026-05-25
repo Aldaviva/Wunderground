@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RollForward>major</RollForward>
+        <Nullable>enable</Nullable>
+        <Features>$(Features);FileBasedProgram</Features> <!-- Don't freak out when compiling a .cs file that will later be run as a file-based program -->
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="decompiled\**;com.wunderground.android*\**;*.apk;*.aep;*.mp4;.*" />
+    </ItemGroup>
+
+</Project>

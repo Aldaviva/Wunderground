@@ -18,7 +18,7 @@ jobs:
           echo "ANDROID_BUILD_TOOLS=$ANDROID_HOME/build-tools/36.0.0" >> $GITHUB_ENV
 
       - name: Clone
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download apktool
         run: wget --no-verbose -O apktool.jar https://github.com/iBotPeaches/Apktool/releases/download/v2.11.0/apktool_2.11.0.jar
@@ -27,7 +27,7 @@ jobs:
         run: java -jar apktool.jar decode *.apk -o decompiled --no-res
 
       - name: Modify source
-        run: dotnet fsi tweak.fsx
+        run: dotnet tweak.cs
 
       - name: Compile app
         run: java -jar apktool.jar build decompiled -o Wunderground-faststart-unsigned.apk
@@ -41,7 +41,7 @@ jobs:
           $ANDROID_BUILD_TOOLS/apksigner sign --ks cert.keystore --ks-pass env:KEYSTORE_PASSWORD --align-file-size --in Wunderground-faststart-unsigned.apk --out Wunderground-faststart.apk
 
       - name: Upload APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Wunderground-faststart.apk
           path: Wunderground-faststart.apk
