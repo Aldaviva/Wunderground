@@ -1,6 +1,6 @@
 decompiled/
 com.wunderground.android.weather*/
-*.apk
+Wunderground-faststart.apk
 
 #Ignore thumbnails created by Windows
 Thumbs.db

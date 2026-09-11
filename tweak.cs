@@ -28,9 +28,6 @@ int totalReplacementCount = (await Task.WhenAll(Directory.EnumerateFiles(decompi
             @"(?<=const-wide/16 (?<timeValueRegister>[pv]\d+), )0x7d0\b(?=.{1,300}invoke-static \{\1(?:, [pv]\d+){2}\}, Lio\/reactivex\/Completable;->timer\(JLjava\/util\/concurrent\/TimeUnit;\)Lio\/reactivex\/Completable;)",
             $"0x0 {CHANGED_COMMENT}", cts.Token),
 
-        ({} dir, _) when dir.Replace('\\', '/').Contains("/com/google/android/gms/internal/ads") => replaceInFile(filePath,
-            @"g\.doubleclick\.net", "g.doubleclick.ben", cts.Token),
-
         _ => Task.FromResult(0)
     };
 }))).Aggregate((a, b) => a + b);
